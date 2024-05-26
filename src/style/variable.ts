@@ -157,3 +157,8 @@ export const DESIGN_SYSTEM_COLOR = {
   BRAND_PURPLE: "#0056CA",
   KREAM: "#222222",
 };
+
+export const BREAK_POINTS = {
+  TABLET: "@media screen and (max-width: 1119px)",
+  MOBILE: "@media screen and (max-width: 767px)",
+};

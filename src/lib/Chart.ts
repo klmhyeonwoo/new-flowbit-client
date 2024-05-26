@@ -1,4 +1,3 @@
-/* eslint-disable no-case-declarations */
 export interface ChartType {
   targetId: string;
   size: {
@@ -249,37 +248,37 @@ export class Chart {
    * @param gradientUnits
    * @returns {string} Defs에 지정된 Color ID 값
    */
-  private setCustomColor(
-    colorSvgElement: SVGSVGElement | HTMLElement | Element,
-    position: { x1: string; y1: string; x2: string; y2: string } = {
-      x1: "",
-      y1: "",
-      x2: "",
-      y2: "",
-    },
-    gradientUnits: "userSpaceOnUse" | "objectBoundingBox" = "objectBoundingBox",
-  ) {
-    const randomId = "flowbit_" + Math.random().toString(16);
-    if (gradientUnits === "userSpaceOnUse") {
-      this.setAttributes(colorSvgElement, [
-        { property: "gradientUnits", value: gradientUnits },
-        { property: "id", value: randomId },
-        { property: "x1", value: position.x1 },
-        { property: "x2", value: position.x2 },
-        { property: "y1", value: position.y1 },
-        { property: "y2", value: position.y2 },
-      ]);
-    } else {
-      this.setAttributes(colorSvgElement, [
-        { property: "gradientUnits", value: gradientUnits },
-        { property: "id", value: randomId },
-      ]);
-    }
+  // private setCustomColor(
+  //   colorSvgElement: SVGSVGElement | HTMLElement | Element,
+  //   position: { x1: string; y1: string; x2: string; y2: string } = {
+  //     x1: "",
+  //     y1: "",
+  //     x2: "",
+  //     y2: "",
+  //   },
+  //   gradientUnits: "userSpaceOnUse" | "objectBoundingBox" = "objectBoundingBox",
+  // ) {
+  //   const randomId = "flowbit_" + Math.random().toString(16);
+  //   if (gradientUnits === "userSpaceOnUse") {
+  //     this.setAttributes(colorSvgElement, [
+  //       { property: "gradientUnits", value: gradientUnits },
+  //       { property: "id", value: randomId },
+  //       { property: "x1", value: position.x1 },
+  //       { property: "x2", value: position.x2 },
+  //       { property: "y1", value: position.y1 },
+  //       { property: "y2", value: position.y2 },
+  //     ]);
+  //   } else {
+  //     this.setAttributes(colorSvgElement, [
+  //       { property: "gradientUnits", value: gradientUnits },
+  //       { property: "id", value: randomId },
+  //     ]);
+  //   }
 
-    this.customColorContainer.append(colorSvgElement);
+  //   this.customColorContainer.append(colorSvgElement);
 
-    return randomId;
-  }
+  //   return randomId;
+  // }
 
   /**
    * SVG Element을 생성하는 함수
@@ -621,37 +620,37 @@ export class Chart {
   /**
    * X축 Y축 선을 긋는 함수
    */
-  private setAxis = () => {
-    // 1. Create G Tag
-    const Axis = this.createSvgElement("g", [
-      { property: "class", value: "axis" },
-      { property: "stroke", value: "#fff" },
-      { property: "stroke-width", value: "5" },
-      { property: "id", value: "flowbit_axios" },
-    ]);
+  // private setAxis = () => {
+  //   // 1. Create G Tag
+  //   const Axis = this.createSvgElement("g", [
+  //     { property: "class", value: "axis" },
+  //     { property: "stroke", value: "#fff" },
+  //     { property: "stroke-width", value: "5" },
+  //     { property: "id", value: "flowbit_axios" },
+  //   ]);
 
-    // 2. Draw X Axis
-    const xAxis = this.createSvgElement("line", [
-      { property: "x1", value: this.padding.left + "" },
-      { property: "x2", value: this.width - this.padding.right + "" },
-      { property: "y1", value: this.hegiht - this.padding.bottom + "" },
-      { property: "y2", value: this.hegiht - this.padding.bottom + "" },
-      { property: "class", value: "axis__x" },
-    ]);
+  //   // 2. Draw X Axis
+  //   const xAxis = this.createSvgElement("line", [
+  //     { property: "x1", value: this.padding.left + "" },
+  //     { property: "x2", value: this.width - this.padding.right + "" },
+  //     { property: "y1", value: this.hegiht - this.padding.bottom + "" },
+  //     { property: "y2", value: this.hegiht - this.padding.bottom + "" },
+  //     { property: "class", value: "axis__x" },
+  //   ]);
 
-    // 3. Draw Y Axis
-    const yAxis = this.createSvgElement("line", [
-      { property: "x1", value: this.padding.left + "" },
-      { property: "x2", value: this.padding.left + "" },
-      { property: "y1", value: this.padding.top + "" },
-      { property: "y2", value: this.hegiht - this.padding.bottom + "" },
-      { property: "class", value: "axis__y" },
-    ]);
+  //   // 3. Draw Y Axis
+  //   const yAxis = this.createSvgElement("line", [
+  //     { property: "x1", value: this.padding.left + "" },
+  //     { property: "x2", value: this.padding.left + "" },
+  //     { property: "y1", value: this.padding.top + "" },
+  //     { property: "y2", value: this.hegiht - this.padding.bottom + "" },
+  //     { property: "class", value: "axis__y" },
+  //   ]);
 
-    // insert To C
-    this.appendChilds(Axis, [xAxis, yAxis]);
-    this.appendChilds(this.axiosContainer, [Axis]);
-  };
+  //   // insert To C
+  //   this.appendChilds(Axis, [xAxis, yAxis]);
+  //   this.appendChilds(this.axiosContainer, [Axis]);
+  // };
 
   /**
    * X, Y축의 라벨을 설정하는 함수

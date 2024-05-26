@@ -5,13 +5,14 @@ import E_caption from "../common/text/E_caption";
 import { NavLink } from "react-router-dom";
 import WhiteAlarm from "@/assets/alarm-white.svg";
 import Alarm from "@/assets/alarm.svg";
-
-const HOME_URL = "/";
-const PREDICT_URL = "/predict";
-const NEWS_LETTER_URL = "/newsletter";
-const COMMUNITY_URL = "/community";
-const LOGIN_URL = "/signin";
-const REGISTER_URL = "/register";
+import {
+  COMMUNITY_URL,
+  HOME_URL,
+  LOGIN_URL,
+  NEWS_LETTER_URL,
+  PREDICT_URL,
+  REGISTER_URL,
+} from "@/utils/util";
 
 export default function Header({ isScroll }: { isScroll: boolean }) {
   return (
