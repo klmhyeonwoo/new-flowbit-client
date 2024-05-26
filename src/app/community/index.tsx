@@ -6,10 +6,14 @@ import CommunityHotBoard from "@/components/app/community/community-hotBoard";
 import CommunitySearch from "@/components/app/community/community-search";
 import CommunityTab from "@/components/app/community/community-tab";
 import UseApiCommunity from "@/hooks/api/newsletter/UseApiComminity";
+import {
+  BoardModal,
+  ModalPortal,
+} from "@/components/common/modal/board-modal.tsx";
 
 export default function CommunityPage() {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [communityPage, setCommunityPage] = useState<{
+  const [communityPage, _] = useState<{
     page: number;
     size: number;
   }>({
@@ -22,6 +26,8 @@ export default function CommunityPage() {
   const [communitySort, setCommunitySort] = useState("");
 
   const [communitySearchWord, setCommunitySearchWord] = useState("");
+
+  const [modal, setModal] = useState(false);
 
   const { data } = UseApiCommunity({
     page: `page=${communityPage.page}`,
@@ -43,9 +49,17 @@ export default function CommunityPage() {
     setCommunitySearchWord(word);
   };
 
+  const createBoardModal = () => {
+    setModal(true);
+  };
+
   return (
     <Fragment>
-      {/* Hero */}
+      {modal && (
+        <ModalPortal>
+          <BoardModal setModalState={setModal} />
+        </ModalPortal>
+      )}
       <div
         css={css`
           width: 100%;
@@ -69,7 +83,7 @@ export default function CommunityPage() {
             gap: 4.2rem;
           `}
         >
-          <CommunityCreateBtn></CommunityCreateBtn>
+          <CommunityCreateBtn onClick={createBoardModal}></CommunityCreateBtn>
           <CommunityTab
             onClickCategoryTab={handleCommunityCategory}
             onClickSortTab={handleCommunitySort}

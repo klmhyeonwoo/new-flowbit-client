@@ -3,7 +3,7 @@ import Profile from "@/assets/Profile.png";
 import PencileIcon from "@/assets/PencileIcon.svg";
 import B2 from "@/components/common/text/B2";
 
-export default function CommunityCreateBtn() {
+export default function CommunityCreateBtn({ ...props }) {
   return (
     <div
       css={css`
@@ -16,6 +16,7 @@ export default function CommunityCreateBtn() {
         -ms-user-select: none;
         user-select: none;
       `}
+      {...props}
     >
       {/* Profile */}
       <img

@@ -6,10 +6,10 @@ import {
   createBrowserRouter,
   RouteObject,
 } from "react-router-dom";
-import SignIn from "@/app/signin";
-import SignUp from "@/app/signup";
-import Complete from "@/app/signup/complete";
-import Consent from "@/app/signup/consent";
+import SignIn from "@/app/signin/index.tsx";
+import SignUp from "@/app/signup/index.tsx";
+import Complete from "@/app/signup/complete/index.tsx";
+import Consent from "@/app/signup/consent/index.tsx";
 
 const routerChildren: RouteObject[] = [
   {
