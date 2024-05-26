@@ -28,7 +28,13 @@ export default function GlobalLayout() {
 
   return (
     <Fragment>
-      <Header isScroll={location.pathname === "/" ? true : isScroll} />
+      <Header
+        isScroll={
+          location.pathname === "/" || location.pathname === "/predict"
+            ? true
+            : isScroll
+        }
+      />
       <Outlet />
     </Fragment>
   );

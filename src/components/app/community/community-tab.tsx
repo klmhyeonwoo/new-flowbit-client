@@ -1,30 +1,37 @@
 import { useState } from "react";
 import { css } from "@emotion/react";
-import B2 from "@/components/common/text/B2";
-import S3 from "@/components/common/text/S3";
+import { DESIGN_SYSTEM_COLOR, DESIGN_SYSTEM_TEXT } from "@/style/variable";
 
-const eng2Kor: { [key: string]: string } = {
-  TOTAL: "전체",
-  DOZI: "도지코인",
-  BIT: "비트코인",
-  ETHER: "이더리움",
-  LATEST: "최신순",
-  POPULAR: "인기순",
+const COIN_TYPE_LIST = ["전체", "리플", "비트코인", "이더리움"];
+const ORDER_TYPE_LIST = ["최신순", "인기순"];
+const ORDER_TYPE_DICT: { [key: string]: string } = {
+  최신순: "&Sort=createdAt,desc",
+  인기순: "&Sort=boardLikeCount,desc",
 };
 
-const COIN_TYPE_LIST = ["TOTAL", "DOZI", "BIT", "ETHER"];
-const ORDER_TYPE_LIST = ["LATEST", "POPULAR"];
-
-export default function CommunityTab() {
-  const [selectedCoinType, setSelectedCoinType] = useState("TOTAL");
-  const [selectedOrderType, setSelectedOrderType] = useState("LATEST");
+export default function CommunityTab({
+  onClickCategoryTab,
+  onClickSortTab,
+}: {
+  onClickCategoryTab: (category: string) => void;
+  onClickSortTab: (sort: string) => void;
+}) {
+  const [selectedCoinType, setSelectedCoinType] = useState(COIN_TYPE_LIST[0]);
+  const [selectedOrderType, setSelectedOrderType] = useState(
+    ORDER_TYPE_LIST[0],
+  );
 
   const handleTabChange = (coinType: string) => {
     setSelectedCoinType(coinType);
+    onClickCategoryTab(`&boardCategory=${coinType}`);
   };
 
   const handleOrderChange = (dateType: string) => {
     setSelectedOrderType(dateType);
+    const sort = ORDER_TYPE_DICT[dateType];
+    if (sort) {
+      onClickSortTab(sort);
+    }
   };
 
   return (
@@ -34,7 +41,7 @@ export default function CommunityTab() {
         display: flex;
         justify-content: space-between;
 
-        border-bottom: 2px solid #e0e0e0;
+        border-bottom: 0.2rem solid #e0e0e0;
       `}
     >
       {/* Tab */}
@@ -42,7 +49,7 @@ export default function CommunityTab() {
         <ul
           css={css`
             display: flex;
-            gap: 20px;
+            gap: 2rem;
             padding: 0;
             margin: 0;
             list-style: none;
@@ -61,12 +68,12 @@ export default function CommunityTab() {
               content: " ";
               display: block;
               width: 100%;
-              height: 2px;
+              height: 0.2rem;
               background-color: #0056ca;
 
               position: absolute;
               bottom: -100%;
-              transform: translateY(-4px);
+              transform: translateY(-0.3rem);
             }
           `}
         >
@@ -82,13 +89,14 @@ export default function CommunityTab() {
                   onChange={() => handleTabChange(type)}
                 />
                 <label htmlFor={`community-tab-${type}`}>
-                  <S3
+                  <span
                     css={css`
-                      color: #bdbdbd;
+                      ${DESIGN_SYSTEM_TEXT.S3};
+                      color: ${DESIGN_SYSTEM_COLOR.GRAY_400};
                     `}
                   >
-                    {eng2Kor[type]}
-                  </S3>
+                    {type}
+                  </span>
                 </label>
               </li>
             );
@@ -100,16 +108,16 @@ export default function CommunityTab() {
         <ul
           css={css`
             display: flex;
-            gap: 10px;
+            gap: 1rem;
             padding: 0;
-            padding-bottom: 12px;
-            padding-right: 10px;
+            padding-bottom: 1.2rem;
+            padding-right: 1rem;
             margin: 0;
             list-style: none;
 
             & label {
-              padding: 5px 15px;
-              border-radius: 100px;
+              padding: 0.5rem 1.5rem;
+              border-radius: 10rem;
               cursor: pointer;
             }
 
@@ -134,13 +142,14 @@ export default function CommunityTab() {
                   onChange={() => handleOrderChange(type)}
                 />
                 <label htmlFor={`community-order-${type}`}>
-                  <B2
+                  <span
                     css={css`
-                      color: #757575;
+                      ${DESIGN_SYSTEM_TEXT.B2};
+                      color: ${DESIGN_SYSTEM_COLOR.GRAY_600};
                     `}
                   >
-                    {eng2Kor[type]}
-                  </B2>
+                    {type}
+                  </span>
                 </label>
               </li>
             );

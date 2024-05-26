@@ -1,51 +1,108 @@
+import { Fragment, useState } from "react";
+import { css } from "@emotion/react";
 import CommunityBoard from "@/components/app/community/community-board";
 import CommunityCreateBtn from "@/components/app/community/community-createBtn";
 import CommunityHotBoard from "@/components/app/community/community-hotBoard";
 import CommunitySearch from "@/components/app/community/community-search";
 import CommunityTab from "@/components/app/community/community-tab";
-import { css } from "@emotion/react";
-import { Fragment } from "react";
+import UseApiCommunity from "@/hooks/api/newsletter/UseApiComminity";
 
 export default function CommunityPage() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [communityPage, setCommunityPage] = useState<{
+    page: number;
+    size: number;
+  }>({
+    page: 0,
+    size: 30,
+  });
+
+  const [communityCategory, setCommunityCategory] = useState("");
+
+  const [communitySort, setCommunitySort] = useState("");
+
+  const [communitySearchWord, setCommunitySearchWord] = useState("");
+
+  const { data } = UseApiCommunity({
+    page: `page=${communityPage.page}`,
+    size: `&size=${communityPage.size}`,
+    sort: communitySort,
+    category: communityCategory,
+    searchWord: communitySearchWord,
+  });
+
+  const handleCommunitySort = (sort: string) => {
+    setCommunitySort(sort);
+  };
+
+  const handleCommunityCategory = (category: string) => {
+    setCommunityCategory(category);
+  };
+
+  const handleCommunitySearchWord = (word: string) => {
+    setCommunitySearchWord(word);
+  };
+
   return (
     <Fragment>
       {/* Hero */}
       <div
         css={css`
           width: 100%;
-          height: 322px;
+          height: 32.2rem;
           background-color: black;
         `}
       ></div>
       <div
         css={css`
-          margin: 35px auto;
-          max-width: 1116px;
+          margin: 3.5rem auto;
+          max-width: 111.6rem;
           display: flex;
-          gap: 120px;
+          gap: 12rem;
         `}
       >
         <main
           css={css`
+            min-width: 735px;
             display: flex;
             flex-direction: column;
-            gap: 42px;
+            gap: 4.2rem;
           `}
         >
           <CommunityCreateBtn></CommunityCreateBtn>
-          <CommunityTab></CommunityTab>
-          <div>
-            <CommunityBoard></CommunityBoard>
+          <CommunityTab
+            onClickCategoryTab={handleCommunityCategory}
+            onClickSortTab={handleCommunitySort}
+          ></CommunityTab>
+          <div
+            css={css`
+              display: flex;
+              flex-direction: column;
+              gap: 5rem;
+            `}
+          >
+            {data &&
+              data.content.map((row) => {
+                return (
+                  <CommunityBoard
+                    key={row.boardId + row.nickname}
+                    {...row}
+                  ></CommunityBoard>
+                );
+              })}
           </div>
         </main>
         <aside
           css={css`
             display: flex;
             flex-direction: column;
-            gap: 47px;
+            gap: 4.7rem;
           `}
         >
-          <CommunitySearch></CommunitySearch>
+          <CommunitySearch
+            onSearchWord={handleCommunitySearchWord}
+            onClickTag={handleCommunityCategory}
+          ></CommunitySearch>
           <CommunityHotBoard></CommunityHotBoard>
         </aside>
       </div>

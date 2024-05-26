@@ -10,7 +10,7 @@ const HOME_URL = "/";
 const PREDICT_URL = "/predict";
 const NEWS_LETTER_URL = "/newsletter";
 const COMMUNITY_URL = "/community";
-const LOGIN_URL = "/login";
+const LOGIN_URL = "/signin";
 const REGISTER_URL = "/register";
 
 export default function Header({ isScroll }: { isScroll: boolean }) {

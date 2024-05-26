@@ -1,21 +1,42 @@
-import { useState } from "react";
 import { css } from "@emotion/react";
-import Profile from "@/assets/Profile.png";
+import { CommunityBoardType } from "./type";
+import { DESIGN_SYSTEM_COLOR, DESIGN_SYSTEM_TEXT } from "@/style/variable";
+import moment from "moment";
 import Collapse from "@/assets/collapse.svg";
-import B1 from "@/components/common/text/B1";
-import E_B1 from "@/components/common/text/E_B1";
-import E_S2 from "@/components/common/text/E_S2";
-import E_S3 from "@/components/common/text/E_S3";
-import T4 from "@/components/common/text/T4";
 import Heart from "@/assets/heart.svg";
+import DefaultHeart from "@/assets/heart-default.svg";
 import IconButton from "@/components/common/icon-button";
 import Comment from "@/assets/comment.svg";
+import DefaultComment from "@/assets/comment-default.svg";
 import Share from "@/assets/share.svg";
 import SendBtn from "@/assets/sendBtn.svg";
 
-export default function CommunityBoard() {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [commentList, setCommentList] = useState([1, 2, 3, 4]);
+const IMG_URL = import.meta.env.VITE_IMG_URL as string;
+
+export default function CommunityBoard(props: CommunityBoardType) {
+  const {
+    title,
+    content,
+    nickname,
+    profile,
+    comments,
+    boardLikeCount,
+    boardCommentCount,
+    createTime,
+  } = props;
+
+  const getTimeOffsetFromNow = (postedAt: string) => {
+    const diffUnixTime = (moment().unix() - moment(postedAt).unix()) * 1000;
+    const hour = Math.floor(diffUnixTime / (1000 * 60 * 60));
+
+    if (hour >= 24) {
+      return `약 ${Math.floor(hour / 24)}일 전`;
+    } else if (hour > 1) {
+      return `약 ${hour}시간 전`;
+    } else {
+      return "최근 등록";
+    }
+  };
 
   return (
     <div>
@@ -24,17 +45,17 @@ export default function CommunityBoard() {
         css={css`
           display: flex;
           align-items: center;
-          gap: 24px;
-          margin-bottom: 10px;
+          gap: 2.4rem;
+          margin-bottom: 1rem;
         `}
       >
         {/* Profile */}
         <img
           css={css`
-            width: 55px;
-            height: 55px;
+            width: 5.5rem;
+            height: 5.5rem;
           `}
-          src={Profile}
+          src={`${IMG_URL}/${profile}`}
           alt="profile"
         />
         {/* Info */}
@@ -42,39 +63,58 @@ export default function CommunityBoard() {
           {/* Name */}
           <div
             css={css`
-              margin-bottom: 3px;
+              margin-bottom: 0.3rem;
             `}
           >
-            <E_S2>Dong Gyun Yang</E_S2>
-            <E_S3>님이 공유했어요.</E_S3>
+            <span
+              css={css`
+                ${DESIGN_SYSTEM_TEXT.E_S2}
+                color: ${DESIGN_SYSTEM_COLOR.GRAY_900};
+              `}
+            >
+              {nickname}
+            </span>
+            <span
+              css={css`
+                ${DESIGN_SYSTEM_TEXT.E_S3}
+                color: ${DESIGN_SYSTEM_COLOR.GRAY_900};
+              `}
+            >
+              님이 공유했어요.
+            </span>
           </div>
           {/* Time */}
-          <E_B1
+          <span
             css={css`
-              color: #bdbdbd;
+              ${DESIGN_SYSTEM_TEXT.E_B1}
+              color: ${DESIGN_SYSTEM_COLOR.GRAY_400};
             `}
           >
-            약 3시간 전
-          </E_B1>
+            {getTimeOffsetFromNow(createTime)}
+          </span>
         </div>
       </div>
       {/* Board */}
       <div
         css={css`
           display: flex;
-          gap: 24px;
+          width: 100%;
+          gap: 2.4rem;
         `}
       >
         <div
           css={css`
-            min-width: 55px;
+            min-width: 5.5rem;
           `}
-        ></div>
+        >
+          {/* Empty div */}
+        </div>
         <div
           css={css`
-            padding: 10px 35px;
-            border: 1px solid #f5f5f5;
-            border-radius: 10px;
+            width: 65.5rem;
+            padding: 1rem 3.5rem;
+            border: 0.1rem solid #f5f5f5;
+            border-radius: 1rem;
             background-color: #fafafa;
           `}
         >
@@ -90,26 +130,32 @@ export default function CommunityBoard() {
           {/* Title */}
           <div
             css={css`
-              margin-bottom: 17px;
+              margin-bottom: 1.7rem;
             `}
           >
-            <T4>도지코인 이대로 괜찮은가?</T4>
+            <span
+              css={css`
+                ${DESIGN_SYSTEM_TEXT.T4}
+                color: ${DESIGN_SYSTEM_COLOR.GRAY_900};
+              `}
+            >
+              {title}
+            </span>
           </div>
           {/* Description */}
           <div
             css={css`
-              margin-bottom: 23px;
+              margin-bottom: 2.3rem;
             `}
           >
-            <B1
+            <span
               css={css`
-                color: #616161;
+                ${DESIGN_SYSTEM_TEXT.B1}
+                color: ${DESIGN_SYSTEM_COLOR.GRAY_700};
               `}
             >
-              업비트 투자자보호센터에 따르면 주요 기관들의 비트코인 보유 물량은
-              증가하는 추세다. 전 세계 기업·펀드·정부가 보유하고 있는 비트코인
-              물량의 합은 약 233만개로, 올해 초 170만개보다 약 60만개 늘었다.
-            </B1>
+              {content}
+            </span>
           </div>
           {/* Bottom */}
           <div
@@ -122,12 +168,16 @@ export default function CommunityBoard() {
             <div
               css={css`
                 display: flex;
-                gap: 46px;
+                gap: 4.6rem;
               `}
             >
               {/* Button */}
-              <IconButton src={Heart}>32</IconButton>
-              <IconButton src={Comment}>32</IconButton>
+              <IconButton src={boardLikeCount ? Heart : DefaultHeart}>
+                {boardLikeCount}
+              </IconButton>
+              <IconButton src={boardCommentCount ? Comment : DefaultComment}>
+                {boardCommentCount}
+              </IconButton>
               <IconButton src={Share} />
             </div>
           </div>
@@ -139,28 +189,29 @@ export default function CommunityBoard() {
               list-style: none;
             `}
           >
-            {commentList.map(() => {
+            {comments.map((row) => {
               return (
                 <li
+                  key={row.commentId}
                   css={css`
-                    margin-top: 29px;
-                    padding-top: 29px;
-                    border-top: 1px solid #eeeeee;
+                    margin-top: 2.9rem;
+                    padding-top: 2.9rem;
+                    border-top: 0.1rem solid ${DESIGN_SYSTEM_COLOR.GRAY_200};
                   `}
                 >
                   <div
                     css={css`
                       display: flex;
-                      gap: 12px;
+                      gap: 1.2rem;
                     `}
                   >
                     {/* IMG */}
                     <img
                       css={css`
-                        width: 45px;
-                        height: 45px;
+                        width: 4.5rem;
+                        height: 4.5rem;
                       `}
-                      src={Profile}
+                      src={`${IMG_URL}/${row.profile}`}
                       alt=""
                     />
                     {/* info */}
@@ -170,28 +221,36 @@ export default function CommunityBoard() {
                         css={css`
                           display: flex;
                           align-items: center;
-                          gap: 20px;
+                          gap: 1.5rem;
+                          margin-bottom: 0.8rem;
                         `}
                       >
-                        <E_S2>Hello</E_S2>
-                        <E_B1
+                        <span
                           css={css`
-                            color: #bdbdbd;
+                            ${DESIGN_SYSTEM_TEXT.E_S2}
+                            color: ${DESIGN_SYSTEM_COLOR.GRAY_900};
                           `}
                         >
-                          약 3시간 전
-                        </E_B1>
+                          {row.name}
+                        </span>
+                        <span
+                          css={css`
+                            ${DESIGN_SYSTEM_TEXT.E_B1}
+                            color: ${DESIGN_SYSTEM_COLOR.GRAY_400};
+                          `}
+                        >
+                          {getTimeOffsetFromNow(row.createTime)}
+                        </span>
                       </div>
                       {/* bottom */}
-                      <B1
+                      <span
                         css={css`
-                          color: #616161;
+                          ${DESIGN_SYSTEM_TEXT.B1}
+                          color: ${DESIGN_SYSTEM_COLOR.GRAY_700};
                         `}
                       >
-                        비트와이즈 애셋 매니지먼트의 라이언 라스무센
-                        애널리스트는 "오늘이 비트코인 선물 결제일인 점이 가격
-                        급등에 기여하고 있다.
-                      </B1>
+                        {row.content}
+                      </span>
                     </div>
                   </div>
                 </li>
@@ -204,19 +263,17 @@ export default function CommunityBoard() {
               display: flex;
               justify-content: space-between;
               align-items: center;
-              border-radius: 100px;
-              margin-top: 29px;
-              margin-bottom: 33px;
-              padding: 9px 22px;
+              border-radius: 10rem;
+              margin-top: 2.9rem;
+              margin-bottom: 3.3rem;
+              padding: 0.9rem 2.2rem;
               background-color: #e0edff;
             `}
           >
             <input
               css={css`
+                ${DESIGN_SYSTEM_TEXT.B2}
                 width: 90%;
-                font-size: 14px;
-                line-height: 22px;
-                letter-spacing: -0.2px;
                 border: none;
                 background-color: #e0edff;
                 outline: none;

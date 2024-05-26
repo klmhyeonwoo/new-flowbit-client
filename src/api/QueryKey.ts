@@ -1,3 +1,4 @@
 export const QueryKey = {
-  CHART: 'chart',
+  CHART: "chart",
+  PREDICT: "predict",
 };

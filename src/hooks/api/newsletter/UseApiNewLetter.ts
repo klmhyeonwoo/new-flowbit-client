@@ -1,5 +1,5 @@
 import { api } from "@/api";
-import { newsLetterProps } from "@/components/app/chart/newsletter/news-card";
+import { newsLetterProps } from "@/components/app/predict/newsletter/news-card";
 import { useQuery } from "@tanstack/react-query";
 
 export default function UseApiNewLetter() {
